@@ -1,8 +1,11 @@
 package com.senai.api.services;
 
+import com.senai.api.dtos.LoginDto;
 import com.senai.api.dtos.RespostaUsuarioDto;
+import com.senai.api.dtos.SenhaDto;
 import com.senai.api.dtos.UsuarioDto;
 import com.senai.api.entities.UsuarioEntity;
+import org.apache.juli.logging.Log;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -80,10 +83,8 @@ public class UsuarioService {
             if (usuario.getCPF().equals(CPF)) {
 
                 usuario.setCPF(usuarioDto.getCPF());
-                usuario.setLogin(usuarioDto.getCPF());
-                usuario.setNome(usuarioDto.getCPF());
-                usuario.setSenha(usuarioDto.getCPF());
-
+                usuario.setLogin(usuarioDto.getLogin());
+                usuario.setNome(usuarioDto.getNome());
                 return true;
             }
         }
@@ -100,6 +101,32 @@ public class UsuarioService {
         }
         return true;
     }
+// TESTA ESSA BPSTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+    public boolean trocarSenha(String login, SenhaDto senhaDto){
+        for (UsuarioEntity usuario : listaUsuario){
+            if (usuario.getLogin().equals(login)) {
+                if (senhaDto.getSenhaAtual().equals(usuario.getSenha())) {
+                    usuario.setSenha(senhaDto.getSenhaNova());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public boolean logar(LoginDto loginDto) {
+
+        for (UsuarioEntity usuario: listaUsuario){
+            if (loginDto.getLogin().equals(usuario.getLogin()) && loginDto.getSenha().equals(usuario.getSenha())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 
 //    public String BuscarPorCPF(String cpf){

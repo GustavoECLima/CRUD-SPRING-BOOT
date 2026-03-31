@@ -1,6 +1,7 @@
 package com.senai.api.controllers;
 
 import com.senai.api.dtos.RespostaUsuarioDto;
+import com.senai.api.dtos.SenhaDto;
 import com.senai.api.dtos.UsuarioDto;
 import com.senai.api.services.UsuarioService;
 import org.springframework.http.ResponseEntity;
@@ -54,13 +55,13 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/usuario/{cpf}")
-    public  ResponseEntity<String> deletar (@PathVariable String cpf) {
+    public ResponseEntity<String> deletar (@PathVariable String cpf) {
 
         boolean retorno = service.deletar(cpf);
         if (retorno){
             return ResponseEntity.ok().body("Usuário deletado com sucesso!");
         }else{
-            return ResponseEntity.ok().body("Usuário não encontrado!");
+            return ResponseEntity.badRequest().body("Usuário não encontrado!");
         }
     }
 }
