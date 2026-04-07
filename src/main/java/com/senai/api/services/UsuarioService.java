@@ -1,9 +1,8 @@
 package com.senai.api.services;
 
-import com.senai.api.dtos.LoginDto;
-import com.senai.api.dtos.RespostaUsuarioDto;
-import com.senai.api.dtos.SenhaDto;
-import com.senai.api.dtos.UsuarioDto;
+import com.senai.api.dtos.*;
+import com.senai.api.entities.CategoriaEntity;
+import com.senai.api.entities.ProdutoEntity;
 import com.senai.api.entities.UsuarioEntity;
 import org.apache.juli.logging.Log;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,16 @@ import java.util.List;
 public class UsuarioService {
 
     private List<UsuarioEntity> listaUsuario = new ArrayList<UsuarioEntity>();
+
+    private List<ProdutoEntity> listaProduto = new ArrayList<ProdutoEntity>();
+    private List<CategoriaEntity> listaCategoria = new ArrayList<CategoriaEntity>();
+
+
+
+    // ================= USUARIOS E LOGIN =============================
+
+
+
 
     public boolean cadastrar(UsuarioDto usuarioDto){
 
@@ -101,7 +110,6 @@ public class UsuarioService {
         }
         return true;
     }
-// TESTA ESSA BPSTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
     public boolean trocarSenha(String login, SenhaDto senhaDto){
         for (UsuarioEntity usuario : listaUsuario){
@@ -126,22 +134,34 @@ public class UsuarioService {
         return false;
     }
 
+    // ================= PRODUTO E CATEGORIA =============================
 
 
 
-//    public String BuscarPorCPF(String cpf){
-//
-//        String UsuarioEncontrado = "Usuario não existe";
-//
-//        for (UsuarioEntity encontre : listaUsuario){
-//            if (encontre.getCPF().equals(cpf)){
-//                return UsuarioEncontrado = "CPF: " + encontre.getCPF()+"/n"+
-//                                            "Nome: " + encontre.getLogin()+"/n"+
-//                                            "Login: " + encontre.getNome();
-//            }
-//
-//        }
-//        return UsuarioEncontrado;
-//    }
+    public String cadastrarProduto(ProdutoDto produtoDto){
+
+        boolean validador = true;
+
+        for (CategoriaEntity lista: listaCategoria){
+            if (!produtoDto.getIdCategoria().equals(lista.getId())){
+                validador = false;
+            }
+        }
+
+        if (!validador){
+            return "Categoria informada não existe";
+        }
+
+        ProdutoEntity produtoEntity = new ProdutoEntity();
+
+        produtoEntity.setId(produtoDto.getId());
+        produtoEntity.setPreco(produtoDto.getPreco());
+        produtoEntity.setNome(produtoDto.getNome());
+        produtoEntity.setIdCategoria(produtoDto.getIdCategoria());
+
+        return "Produto adicionado";
+
+    }
+
 
 }
