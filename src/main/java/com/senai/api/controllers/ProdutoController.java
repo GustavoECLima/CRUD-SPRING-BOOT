@@ -1,7 +1,9 @@
 package com.senai.api.controllers;
 
 import com.senai.api.dtos.ProdutoDto;
+import com.senai.api.entities.CategoriaEntity;
 import com.senai.api.services.ProdutoService;
+import jakarta.persistence.GeneratedValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,12 @@ public class ProdutoController {
     @GetMapping("/produtos")
     public ResponseEntity<List<ProdutoDto>> obterProdutos(){
         List<ProdutoDto> lista = serviceProduto.obterProdutos();
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    }
+
+    @GetMapping("/produtos/categoria/{id}")
+    public ResponseEntity<List<ProdutoDto>> obterProdutosCategoria(@PathVariable long id){
+        List<ProdutoDto> lista = serviceProduto.obterProdutoPorCategoria(id);
         return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 }

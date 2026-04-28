@@ -51,14 +51,15 @@ public class ProdutoService {
         return listaProdutoDto;
     }
 
-    public List<ProdutoDto> obterProdutoPorCategoria(Long categoriaId){
+    public List<ProdutoDto> obterProdutoPorCategoria(Long id){
 
         List<ProdutoDto> listaProdutoDto = new ArrayList<>();
         List<ProdutoEntity> listaProduto = produtoRepository.findAll();
 
         for (ProdutoEntity produto : listaProduto){
-            if (Objects.equals(produto.getCategoria(), categoriaId)) {
+            if (Objects.equals(produto.getCategoria().getId(), id)) {
                 ProdutoDto produtoDto = new ProdutoDto(produto);
+                produtoDto.setCategoriaId(produto.getCategoria().getId());
                 listaProdutoDto.add(produtoDto);
             }
         }
