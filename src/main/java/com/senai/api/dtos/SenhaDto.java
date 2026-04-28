@@ -8,12 +8,6 @@ public class SenhaDto {
     public SenhaDto() {
     }
 
-    public SenhaDto(String senhaAtual, String senhaNova, String senhaConfirmacao) {
-        this.senhaAtual = senhaAtual;
-        this.senhaNova = senhaNova;
-        this.senhaConfirmacao = senhaConfirmacao;
-    }
-
     public String getSenhaAtual() {
         return senhaAtual;
     }

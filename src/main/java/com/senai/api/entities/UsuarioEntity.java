@@ -42,12 +42,4 @@ public class UsuarioEntity {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    @Override
-    public String toString() {
-        return "CPF: " + CPF + '\n' +
-                "nome: " + nome + '\n' +
-                "login: " + login + '\n' +
-                "senha: " + senha + '\n';
-    }
 }

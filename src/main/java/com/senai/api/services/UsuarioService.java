@@ -15,19 +15,9 @@ public class UsuarioService {
 
     private List<UsuarioEntity> listaUsuario = new ArrayList<UsuarioEntity>();
 
-    private List<ProdutoEntity> listaProduto = new ArrayList<ProdutoEntity>();
-    private List<CategoriaEntity> listaCategoria = new ArrayList<CategoriaEntity>();
-
-
-
-    // ================= USUARIOS E LOGIN =============================
-
-
-
-
     public boolean cadastrar(UsuarioDto usuarioDto){
 
-        //--Validar se o logi já existe
+        //--Validar se o login já existe
         for (UsuarioEntity usuario : listaUsuario){
             if (usuario.getLogin().equals(usuarioDto.getLogin())){
                 //--Se já existe, retorna para o controller como false
@@ -49,19 +39,24 @@ public class UsuarioService {
         return true;
     }
 
-    public RespostaUsuarioDto buscar(String cpf){
-
-        RespostaUsuarioDto usuarioDto = new RespostaUsuarioDto();
+    public boolean atualizar(String CPF, UsuarioDto usuarioDto) {
 
         for (UsuarioEntity usuario: listaUsuario){
-            if (usuario.getCPF().equals(cpf)){
-                usuarioDto.setCPF(usuario.getCPF());
-                usuarioDto.setLogin(usuario.getLogin());
-                usuarioDto.setNome(usuario.getNome());
-                break;
+            if (usuario.getLogin().equals(usuarioDto.getLogin()) && !usuario.getCPF().equals(CPF)){
+                return false;
             }
         }
-        return usuarioDto;
+
+        for (UsuarioEntity usuario : listaUsuario){
+            if (usuario.getCPF().equals(CPF)) {
+
+                usuario.setCPF(usuarioDto.getCPF());
+                usuario.setLogin(usuarioDto.getLogin());
+                usuario.setNome(usuarioDto.getNome());
+                return true;
+            }
+        }
+        return true;
     }
 
     public List listar(){
@@ -80,24 +75,19 @@ public class UsuarioService {
         return listaGET;
     }
 
-    public boolean atualizar(String CPF, UsuarioDto usuarioDto) {
+    public RespostaUsuarioDto buscar(String cpf){
+
+        RespostaUsuarioDto usuarioDto = new RespostaUsuarioDto();
 
         for (UsuarioEntity usuario: listaUsuario){
-            if (usuario.getLogin().equals(usuarioDto.getLogin()) && !usuario.getCPF().equals(CPF)){
-                    return false;
+            if (usuario.getCPF().equals(cpf)){
+                usuarioDto.setCPF(usuario.getCPF());
+                usuarioDto.setLogin(usuario.getLogin());
+                usuarioDto.setNome(usuario.getNome());
+                break;
             }
         }
-
-        for (UsuarioEntity usuario : listaUsuario){
-            if (usuario.getCPF().equals(CPF)) {
-
-                usuario.setCPF(usuarioDto.getCPF());
-                usuario.setLogin(usuarioDto.getLogin());
-                usuario.setNome(usuarioDto.getNome());
-                return true;
-            }
-        }
-        return true;
+        return usuarioDto;
     }
 
     public boolean deletar(String CPF) {
@@ -111,19 +101,6 @@ public class UsuarioService {
         return true;
     }
 
-    public boolean trocarSenha(String login, SenhaDto senhaDto){
-        for (UsuarioEntity usuario : listaUsuario){
-            if (usuario.getLogin().equals(login)) {
-                if (senhaDto.getSenhaAtual().equals(usuario.getSenha())) {
-                    usuario.setSenha(senhaDto.getSenhaNova());
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-
     public boolean logar(LoginDto loginDto) {
 
         for (UsuarioEntity usuario: listaUsuario){
@@ -134,34 +111,17 @@ public class UsuarioService {
         return false;
     }
 
-    // ================= PRODUTO E CATEGORIA =============================
-
-
-
-    public String cadastrarProduto(ProdutoDto produtoDto){
-
-        boolean validador = true;
-
-        for (CategoriaEntity lista: listaCategoria){
-            if (!produtoDto.getIdCategoria().equals(lista.getId())){
-                validador = false;
+    public boolean trocarSenha(String login, SenhaDto senhaDto){
+        for (UsuarioEntity usuario : listaUsuario){
+            if (usuario.getLogin().equals(login)) {
+                if (senhaDto.getSenhaAtual().equals(usuario.getSenha())) {
+                    usuario.setSenha(senhaDto.getSenhaNova());
+                    return true;
+                }else{
+                    return false;
+                }
             }
         }
-
-        if (!validador){
-            return "Categoria informada não existe";
-        }
-
-        ProdutoEntity produtoEntity = new ProdutoEntity();
-
-        produtoEntity.setId(produtoDto.getId());
-        produtoEntity.setPreco(produtoDto.getPreco());
-        produtoEntity.setNome(produtoDto.getNome());
-        produtoEntity.setIdCategoria(produtoDto.getIdCategoria());
-
-        return "Produto adicionado";
-
+        return false;
     }
-
-
 }

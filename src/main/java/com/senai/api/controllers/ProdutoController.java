@@ -1,45 +1,36 @@
 package com.senai.api.controllers;
 
 import com.senai.api.dtos.ProdutoDto;
-import com.senai.api.services.UsuarioService;
+import com.senai.api.services.ProdutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/api")
 public class ProdutoController {
-    private final UsuarioService service;
 
-    public ProdutoController(UsuarioService service) {
-        this.service = service;
+    private final ProdutoService serviceProduto;
+
+    public ProdutoController(ProdutoService service) {
+        this.serviceProduto = service;
     }
 
-    @PostMapping("/produtos")
-    public ResponseEntity<String> cadastrar (@RequestBody ProdutoDto produtoDto){
-        if (produtoDto.getNome().isBlank()){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Nome de produto não pode ser nulo");
+    @PostMapping("/produto")
+    public ResponseEntity<String> cadastrar(@RequestBody ProdutoDto produtoDto) {
+        boolean retorno = serviceProduto.cadastrarProduto(produtoDto);
+        if (retorno) {
+            return ResponseEntity.status(HttpStatus.OK).body("Produto cadastrado");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar Produto");
         }
-
-        if (produtoDto.getPreco() < 0){
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Preço do produto não pode ser menor que ZERO.");
-        }
-
-        boolean retorno = service.cadastrarProduto(produtoDto);
-
-        if (retorno){
-            return ResponseEntity
-                    .ok()
-                    .body("Produto adicionado com sucesso");
-        }else{
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("Categoria não encontrada.");
-        }
-
     }
 
+    @GetMapping("/produtos")
+    public ResponseEntity<List<ProdutoDto>> obterProdutos(){
+        List<ProdutoDto> lista = serviceProduto.obterProdutos();
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
+    }
 }

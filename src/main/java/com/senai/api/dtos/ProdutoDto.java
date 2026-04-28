@@ -1,20 +1,22 @@
 package com.senai.api.dtos;
 
+import com.senai.api.entities.ProdutoEntity;
+
 public class ProdutoDto {
 
     private Long id;
     private String nome;
-    private double preco;
-    private Long idCategoria;
-
-    public ProdutoDto(Long id, String nome, double preco, Long idCategoria) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.idCategoria = idCategoria;
-    }
+    private Double preco;
+    private Long categoriaId;
 
     public ProdutoDto() {
+    }
+
+    public ProdutoDto(ProdutoEntity produto){
+        this.setId(produto.getId());
+        this.setNome(produto.getNome());
+        this.setPreco(produto.getPreco());
+        //this.setCategoriaId(produto.getCategoriaId());
     }
 
     public Long getId() {
@@ -33,19 +35,19 @@ public class ProdutoDto {
         this.nome = nome;
     }
 
-    public double getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
-    public Long getIdCategoria() {
-        return idCategoria;
+    public Long getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setIdCategoria(Long idCategoria) {
-        this.idCategoria = idCategoria;
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
     }
 }

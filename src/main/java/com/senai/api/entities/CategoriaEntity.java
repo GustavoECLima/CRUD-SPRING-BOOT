@@ -1,16 +1,26 @@
 package com.senai.api.entities;
 
+import com.senai.api.dtos.CategoriaDto;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "CATEGORIA")
 public class CategoriaEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "nome")
     private String nome;
 
-    public CategoriaEntity(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
+    public CategoriaEntity() {
     }
 
-    public CategoriaEntity() {
+    public CategoriaEntity(CategoriaDto categoriaDto){
+        this.setId(categoriaDto.getId());
+        this.setNome(categoriaDto.getNome());
     }
 
     public Long getId() {

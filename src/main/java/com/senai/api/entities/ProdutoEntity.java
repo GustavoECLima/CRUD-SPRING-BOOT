@@ -1,20 +1,40 @@
 package com.senai.api.entities;
 
+import com.senai.api.dtos.CategoriaDto;
+import com.senai.api.dtos.ProdutoDto;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "PRODUTO")
 public class ProdutoEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private String nome;
-    private double preco;
-    private Long idCategoria;
 
-    public ProdutoEntity(Long id, String nome, double preco, Long idCategoria) {
-        this.id = id;
-        this.nome = nome;
-        this.preco = preco;
-        this.idCategoria = idCategoria;
-    }
+//    @ManyToOne
+//    private CategoriaEntity categoria;
+
+    @Column(name = "nome")
+    private String nome;
+
+    @Column(name = "preco")
+    private Double preco;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private CategoriaEntity categoria;
 
     public ProdutoEntity() {
+    }
+
+    public ProdutoEntity(ProdutoDto produtoDto){
+        this.setId(produtoDto.getId());
+        this.setNome(produtoDto.getNome());
+        this.setPreco(produtoDto.getPreco());
+
+
     }
 
     public Long getId() {
@@ -33,21 +53,19 @@ public class ProdutoEntity {
         this.nome = nome;
     }
 
-    public double getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 
-    public Long getIdCategoria() {
-        return idCategoria;
+    public CategoriaEntity getCategoria() {
+        return categoria;
     }
 
-    public void setIdCategoria(Long idCategoria) {
-        this.idCategoria = idCategoria;
+    public void setCategoria(CategoriaEntity categoria) {
+        this.categoria = categoria;
     }
-
 }
-

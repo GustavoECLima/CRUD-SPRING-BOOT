@@ -7,6 +7,10 @@ public class UsuarioDto {
     private String login;
     private String senha;
 
+    public UsuarioDto(){
+
+    }
+
     public String getCPF() {
         return CPF;
     }

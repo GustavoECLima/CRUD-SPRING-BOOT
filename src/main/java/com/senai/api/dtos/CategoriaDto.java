@@ -1,16 +1,19 @@
 package com.senai.api.dtos;
 
+import com.senai.api.entities.CategoriaEntity;
+
 public class CategoriaDto {
 
     private Long id;
     private String nome;
 
-    public CategoriaDto(Long id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
 
     public CategoriaDto() {
+    }
+
+    public CategoriaDto(CategoriaEntity categoria) {
+        this.setId(categoria.getId());
+        this.setNome(categoria.getNome());
     }
 
     public Long getId() {
